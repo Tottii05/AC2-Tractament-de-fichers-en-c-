@@ -11,7 +11,7 @@ namespace FileHandling
             const string xmlPath = "../../../files/Consum_d_aigua_a_Catalunya_per_comarques_20240402.xml";
             const string Spacing = "----------------------------------------";
             const string FirstMenuText = "Has convertido el Csv a Xml?\ns/n";
-            const string SecondMenuText = "Que quieres hacer?\n1.Filtrar por comarcas con maypr población a 200000\n2.Mostrar el consumo promedio por comarca\n3.Mostrar el menor consumo de agua por consumo domestico per capita\n4.Mostrar el mayor consumo de agua por consumo domestico per capita\n5.Filtrar por nombre o código de comarca";
+            const string SecondMenuText = "Que quieres hacer?\n1.Filtrar por población mayor a 200000\n2.Mostrar el consumo promedio por comarca\n3.Mostrar el mayor consumo domestico per capita\n4.Mostrar el menor consumo domestico per capita\n5.Filtrar por nombre o codigo de comarca";
             const string PoblationFilteredComarca = "Any: {0}\nComarca: {1}\nPoblacio: {2}";
             const string AverageConsumComarca = "Comarca: {0}\nConsum domestic per comarca: {1}";
             const string SubMenuText = "Como quieres filtrar\n1.Nombre\n2.Codigo de comarca";
@@ -73,13 +73,12 @@ namespace FileHandling
                             Console.WriteLine(AverageConsumComarca, comarca, consumoPromedio);
                             Console.WriteLine(Spacing);
                         }
-
                         leaveMenu = true;
                         break;
                     case 3:
-                        var LowestWaterConsumeByConsumeDomestic = Helper.SelectLowestConsumDomesticPerCapita(xmlPath);
+                        var BiggestwaterConsumeByConsumDomestic = Helper.SelectBiggestConsumDomesticPerCapita(xmlPath);
                         Console.WriteLine(Spacing);
-                        foreach (var kvp in LowestWaterConsumeByConsumeDomestic)
+                        foreach (var kvp in BiggestwaterConsumeByConsumDomestic)
                         {
                             var waterConsume = kvp.Value;
                             Console.WriteLine(FilteredComarcaText, waterConsume.Any, waterConsume.CodiComarca, waterConsume.Comarca, waterConsume.Poblacio, waterConsume.DomesticXarxa, waterConsume.ActivitatsEconomiquesIFontsPropies, waterConsume.Total, waterConsume.ConsumDomesticPerCapita);
@@ -88,9 +87,9 @@ namespace FileHandling
                         leaveMenu = true;
                         break;
                     case 4:
-                        var BiggestwaterConsumeByConsumDomestic = Helper.SelectBiggestConsumDomesticPerCapita(xmlPath);
+                        var LowestWaterConsumeByConsumeDomestic = Helper.SelectLowestConsumDomesticPerCapita(xmlPath);
                         Console.WriteLine(Spacing);
-                        foreach (var kvp in BiggestwaterConsumeByConsumDomestic)
+                        foreach (var kvp in LowestWaterConsumeByConsumeDomestic)
                         {
                             var waterConsume = kvp.Value;
                             Console.WriteLine(FilteredComarcaText, waterConsume.Any, waterConsume.CodiComarca, waterConsume.Comarca, waterConsume.Poblacio, waterConsume.DomesticXarxa, waterConsume.ActivitatsEconomiquesIFontsPropies, waterConsume.Total, waterConsume.ConsumDomesticPerCapita);
