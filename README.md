@@ -53,8 +53,6 @@ Console.WriteLine(ConvertSuccess);
             };
 ```
 - - Resultado 4
-```
 La razón para utilizar Action<string> en este caso es para definir dinámicamente qué hacer con el valor de cada elemento del XML. En lugar de tener un código largo y repetitivo para cada propiedad de WaterConsume, utilizas un diccionario que mapea el nombre de la propiedad con una acción que actualiza esa propiedad cuando se lee del XML.
 
 Por ejemplo, cuando encuentras el elemento XML "Consum_domèstic_per_càpita", la acción asociada calcula la suma total y el recuento de los valores de consumo doméstico per cápita por comarca. Esto permite que el código sea más modular, flexible y fácilmente mantenible. Además, te evita repetir el mismo código para cada propiedad de WaterConsume.
-```
