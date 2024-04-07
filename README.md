@@ -4,7 +4,6 @@
 - https://joshclose.github.io/CsvHelper/examples/
 - https://learn.microsoft.com/es-es/troubleshoot/developer/visualstudio/csharp/language-compilers/read-xml-data-from-url
 - https://stackoverflow.com/questions/46808153/c-sharp-dictionary-store-action-method
-- 
 
 ## Usos de IA y resultados útiles
 - ChatGPT
