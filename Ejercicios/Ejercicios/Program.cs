@@ -11,8 +11,9 @@ namespace FileHandling
             const string xmlPath = "../../../files/Consum_d_aigua_a_Catalunya_per_comarques_20240402.xml";
             const string Spacing = "----------------------------------------";
             const string FirstMenuText = "Has convertido el Csv a Xml?\ns/n";
-            const string SecondMenuText = "Que quieres hacer?\n1.Comarcas con mas de 20000 habitantes\n2.Todas las comarcas\n3.Comarca con menor consumo domestico per capita\n4.Comarca con mayor consumo domestico per capita\n5.Filtrar por nombre o codigo de comarca";
-            const string AllComarcaText = "Any: {0}\nComarca: {1}\nConsum domestic per capita: {2}";
+            const string SecondMenuText = "Que quieres hacer?\n1.Filtrar por comarcas con maypr población a 200000\n2.Mostrar el consumo promedio por comarca\n3.Mostrar el menor consumo de agua por consumo domestico per capita\n4.Mostrar el mayor consumo de agua por consumo domestico per capita\n5.Filtrar por nombre o código de comarca";
+            const string PoblationFilteredComarca = "Any: {0}\nComarca: {1}\nPoblacio: {2}";
+            const string AverageConsumComarca = "Comarca: {0}\nConsum domestic per comarca: {1}";
             const string SubMenuText = "Como quieres filtrar\n1.Nombre\n2.Codigo de comarca";
             const string NameFilteredText = "Introduce el nombre de la comarca";
             const string CodeFilteredText = "Introduce el código de la comarca";
@@ -20,6 +21,7 @@ namespace FileHandling
             const string FilteredComarcaText = "Any: {0}\nCodiComarca: {1}\nComarca: {2}\nPoblacio: {3}\nDomesticXarxa: {4}\nActivitatsEconomiquesIFontsPropies: {5}\nTotal: {6}\nConsumDomesticPerCapita: {7}";
             const string InvalidOptionText = "Opción no válida";
 
+            const int MaxPoblation = 200000;
             string firstMenuChoice, comarcaName, comarcaCode;
             int secondMenuChoice, subMenuChoice;
             bool leaveMenu = false, leaveSubMenu = false;
@@ -52,21 +54,26 @@ namespace FileHandling
                 switch (secondMenuChoice)
                 {
                     case 1:
-                        List<WaterConsume> waterConsumes = Helper.SelectComarcaByBiggerThanPoblation(20000, xmlPath);
+                        List<WaterConsume> waterConsumes = Helper.SelectComarcaByBiggerThanPoblation(MaxPoblation, xmlPath);
+                        Console.WriteLine(Spacing);
                         foreach (var waterConsume in waterConsumes)
                         {
-                            Console.WriteLine(waterConsume.Comarca);
+                            Console.WriteLine(PoblationFilteredComarca, waterConsume.Any, waterConsume.Comarca, waterConsume.Poblacio);
+                            Console.WriteLine(Spacing);
                         }
                         leaveMenu = true;
                         break;
                     case 2:
-                        List<WaterConsume> allWaterConsumes = Helper.SelectAllByYearAndComarca(xmlPath);
+                        var averageConsumPerComarca = Helper.SelectAverageConsumPerComarca(xmlPath);
                         Console.WriteLine(Spacing);
-                        foreach (var waterConsume in allWaterConsumes)
+                        foreach (var kvp in averageConsumPerComarca)
                         {
-                            Console.WriteLine(AllComarcaText, waterConsume.Any, waterConsume.Comarca, waterConsume.ConsumDomesticPerCapita);
+                            var comarca = kvp.Key;
+                            var consumoPromedio = kvp.Value;
+                            Console.WriteLine(AverageConsumComarca, comarca, consumoPromedio);
                             Console.WriteLine(Spacing);
                         }
+
                         leaveMenu = true;
                         break;
                     case 3:

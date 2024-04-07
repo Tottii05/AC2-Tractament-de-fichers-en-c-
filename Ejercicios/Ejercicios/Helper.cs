@@ -64,58 +64,60 @@ namespace Utils
             Console.WriteLine(ConvertSuccess);
         }
 
-        public static List<WaterConsume> SelectAllByYearAndComarca(string path)
+        public static Dictionary<string, float> SelectAverageConsumPerComarca(string path)
         {
-            var waterConsumes = new List<WaterConsume>();
+            var totalConsumptionByComarca = new Dictionary<string, float>();
+            var countByComarca = new Dictionary<string, int>();
 
             using (var reader = XmlReader.Create(path))
             {
                 while (reader.ReadToFollowing("record"))
                 {
                     var waterConsume = new WaterConsume();
-                    while (reader.Read())
+
+                    var properties = new Dictionary<string, Action<string>>
+            {
+                { "Any", value => waterConsume.Any = value },
+                { "Codi_comarca", value => waterConsume.CodiComarca = value },
+                { "Comarca", value => waterConsume.Comarca = value },
+                { "Població", value => waterConsume.Poblacio = value },
+                { "Domèstic_xarxa", value => waterConsume.DomesticXarxa = value },
+                { "Activitats_econòmiques_i_fonts_pròpies", value => waterConsume.ActivitatsEconomiquesIFontsPropies = value },
+                { "Total", value => waterConsume.Total = value },
+                { "Consum_domèstic_per_càpita", value =>
                     {
-                        if (reader.NodeType == XmlNodeType.Element)
+                        if (!totalConsumptionByComarca.ContainsKey(waterConsume.Comarca))
                         {
-                            switch (reader.Name)
-                            {
-                                case "Any":
-                                    waterConsume.Any = reader.ReadElementContentAsString();
-                                    break;
-                                case "Codi_comarca":
-                                    waterConsume.CodiComarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Comarca":
-                                    waterConsume.Comarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Població":
-                                    waterConsume.Poblacio = reader.ReadElementContentAsString();
-                                    break;
-                                case "Domèstic_xarxa":
-                                    waterConsume.DomesticXarxa = reader.ReadElementContentAsString();
-                                    break;
-                                case "Activitats_econòmiques_i_fonts_pròpies":
-                                    waterConsume.ActivitatsEconomiquesIFontsPropies = reader.ReadElementContentAsString();
-                                    break;
-                                case "Total":
-                                    waterConsume.Total = reader.ReadElementContentAsString();
-                                    break;
-                                case "Consum_domèstic_per_càpita":
-                                    waterConsume.ConsumDomesticPerCapita = reader.ReadElementContentAsString();
-                                    break;
-                            }
+                            totalConsumptionByComarca[waterConsume.Comarca] = float.Parse(value);
+                            countByComarca[waterConsume.Comarca] = 1;
                         }
-                        else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "record")
+                        else
                         {
-                            break;
+                            totalConsumptionByComarca[waterConsume.Comarca] += float.Parse(value);
+                            countByComarca[waterConsume.Comarca]++;
                         }
                     }
+                }
+            };
 
-                    waterConsumes.Add(waterConsume);
+                    while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+                    {
+                        if (reader.NodeType == XmlNodeType.Element && properties.TryGetValue(reader.Name, out var action))
+                        {
+                            action(reader.ReadElementContentAsString());
+                        }
+                    }
                 }
             }
-            return waterConsumes;
+            var averageConsumptionByComarca = new Dictionary<string, float>();
+            foreach (var comarca in totalConsumptionByComarca.Keys)
+            {
+                averageConsumptionByComarca[comarca] = totalConsumptionByComarca[comarca] / countByComarca[comarca];
+            }
+
+            return averageConsumptionByComarca;
         }
+
 
         public static List<WaterConsume> SelectComarcaByBiggerThanPoblation(int poblation, string xmlPath)
         {
@@ -126,183 +128,122 @@ namespace Utils
                 while (reader.ReadToFollowing("record"))
                 {
                     var waterConsume = new WaterConsume();
-                    while (reader.Read())
+
+                    var properties = new Dictionary<string, Action<string>>
+            {
+                { "Any", value => waterConsume.Any = value },
+                { "Codi_comarca", value => waterConsume.CodiComarca = value },
+                { "Comarca", value => waterConsume.Comarca = value },
+                { "Població", value => waterConsume.Poblacio = value },
+                { "Domèstic_xarxa", value => waterConsume.DomesticXarxa = value },
+                { "Activitats_econòmiques_i_fonts_pròpies", value => waterConsume.ActivitatsEconomiquesIFontsPropies = value },
+                { "Total", value => waterConsume.Total = value },
+                { "Consum_domèstic_per_càpita", value => waterConsume.ConsumDomesticPerCapita = value }
+            };
+
+                    while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
                     {
-                        if (reader.NodeType == XmlNodeType.Element)
+                        if (reader.NodeType == XmlNodeType.Element && properties.TryGetValue(reader.Name, out var action))
                         {
-                            switch (reader.Name)
-                            {
-                                case "Any":
-                                    waterConsume.Any = reader.ReadElementContentAsString();
-                                    break;
-                                case "Codi_comarca":
-                                    waterConsume.CodiComarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Comarca":
-                                    waterConsume.Comarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Població":
-                                    waterConsume.Poblacio = reader.ReadElementContentAsString();
-                                    break;
-                                case "Domèstic_xarxa":
-                                    waterConsume.DomesticXarxa = reader.ReadElementContentAsString();
-                                    break;
-                                case "Activitats_econòmiques_i_fonts_pròpies":
-                                    waterConsume.ActivitatsEconomiquesIFontsPropies = reader.ReadElementContentAsString();
-                                    break;
-                                case "Total":
-                                    waterConsume.Total = reader.ReadElementContentAsString();
-                                    break;
-                                case "Consum_domèstic_per_càpita":
-                                    waterConsume.ConsumDomesticPerCapita = reader.ReadElementContentAsString();
-                                    break;
-                            }
-                        }
-                        else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "record")
-                        {
-                            break;
+                            action(reader.ReadElementContentAsString());
                         }
                     }
-
-                    if (waterConsume.Poblacio != null && int.Parse(waterConsume.Poblacio) > poblation)
+                    if (waterConsume.Poblacio != null && int.TryParse(waterConsume.Poblacio, out int poblacion) && poblacion > poblation)
                     {
                         waterConsumes.Add(waterConsume);
                     }
                 }
             }
+
             return waterConsumes;
         }
 
+
         public static Dictionary<string, WaterConsume> SelectBiggestConsumDomesticPerCapita(string path)
         {
-            var waterConsumesByYear = new Dictionary<string, WaterConsume>();
+            var comarcaByYear = new Dictionary<string, WaterConsume>();
 
             using (var reader = XmlReader.Create(path))
             {
                 while (reader.ReadToFollowing("record"))
                 {
                     var waterConsume = new WaterConsume();
-                    while (reader.Read())
-                    {
-                        if (reader.NodeType == XmlNodeType.Element)
-                        {
-                            switch (reader.Name)
-                            {
-                                case "Any":
-                                    waterConsume.Any = reader.ReadElementContentAsString();
-                                    break;
-                                case "Codi_comarca":
-                                    waterConsume.CodiComarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Comarca":
-                                    waterConsume.Comarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Població":
-                                    waterConsume.Poblacio = reader.ReadElementContentAsString();
-                                    break;
-                                case "Domèstic_xarxa":
-                                    waterConsume.DomesticXarxa = reader.ReadElementContentAsString();
-                                    break;
-                                case "Activitats_econòmiques_i_fonts_pròpies":
-                                    waterConsume.ActivitatsEconomiquesIFontsPropies = reader.ReadElementContentAsString();
-                                    break;
-                                case "Total":
-                                    waterConsume.Total = reader.ReadElementContentAsString();
-                                    break;
-                                case "Consum_domèstic_per_càpita":
-                                    waterConsume.ConsumDomesticPerCapita = reader.ReadElementContentAsString();
-                                    break;
-                            }
-                        }
-                        else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "record")
-                        {
-                            break;
-                        }
-                    }
 
-                    if (!waterConsumesByYear.ContainsKey(waterConsume.Any))
+                    var properties = new Dictionary<string, Action<string>>
+            {
+                { "Any", value => waterConsume.Any = value },
+                { "Codi_comarca", value => waterConsume.CodiComarca = value },
+                { "Comarca", value => waterConsume.Comarca = value },
+                { "Població", value => waterConsume.Poblacio = value },
+                { "Domèstic_xarxa", value => waterConsume.DomesticXarxa = value },
+                { "Activitats_econòmiques_i_fonts_pròpies", value => waterConsume.ActivitatsEconomiquesIFontsPropies = value },
+                { "Total", value => waterConsume.Total = value },
+                { "Consum_domèstic_per_càpita", value =>
                     {
-                        waterConsumesByYear[waterConsume.Any] = waterConsume;
-                    }
-                    else
-                    {
-                        if (waterConsume.ConsumDomesticPerCapita != null &&
-                            waterConsumesByYear[waterConsume.Any].ConsumDomesticPerCapita != null &&
-                            float.Parse(waterConsumesByYear[waterConsume.Any].ConsumDomesticPerCapita) <
-                            float.Parse(waterConsume.ConsumDomesticPerCapita))
+                        waterConsume.ConsumDomesticPerCapita = value;
+                        if (!comarcaByYear.ContainsKey(waterConsume.Any) || float.Parse(value) > float.Parse(comarcaByYear[waterConsume.Any].ConsumDomesticPerCapita))
                         {
-                            waterConsumesByYear[waterConsume.Any] = waterConsume;
+                            comarcaByYear[waterConsume.Any] = waterConsume;
+                        }
+                    }
+                }
+            };
+
+                    while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+                    {
+                        if (reader.NodeType == XmlNodeType.Element && properties.TryGetValue(reader.Name, out var action))
+                        {
+                            action(reader.ReadElementContentAsString());
                         }
                     }
                 }
             }
-            return waterConsumesByYear;
+
+            return comarcaByYear;
         }
+
 
         public static Dictionary<string, WaterConsume> SelectLowestConsumDomesticPerCapita(string path)
         {
-            var waterConsumesByYear = new Dictionary<string, WaterConsume>();
+            var comarcaByYear = new Dictionary<string, WaterConsume>();
 
             using (var reader = XmlReader.Create(path))
             {
                 while (reader.ReadToFollowing("record"))
                 {
                     var waterConsume = new WaterConsume();
-                    while (reader.Read())
-                    {
-                        if (reader.NodeType == XmlNodeType.Element)
-                        {
-                            switch (reader.Name)
-                            {
-                                case "Any":
-                                    waterConsume.Any = reader.ReadElementContentAsString();
-                                    break;
-                                case "Codi_comarca":
-                                    waterConsume.CodiComarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Comarca":
-                                    waterConsume.Comarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Població":
-                                    waterConsume.Poblacio = reader.ReadElementContentAsString();
-                                    break;
-                                case "Domèstic_xarxa":
-                                    waterConsume.DomesticXarxa = reader.ReadElementContentAsString();
-                                    break;
-                                case "Activitats_econòmiques_i_fonts_pròpies":
-                                    waterConsume.ActivitatsEconomiquesIFontsPropies = reader.ReadElementContentAsString();
-                                    break;
-                                case "Total":
-                                    waterConsume.Total = reader.ReadElementContentAsString();
-                                    break;
-                                case "Consum_domèstic_per_càpita":
-                                    waterConsume.ConsumDomesticPerCapita = reader.ReadElementContentAsString();
-                                    break;
-                            }
-                        }
-                        else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "record")
-                        {
-                            break;
-                        }
-                    }
 
-                    if (!waterConsumesByYear.ContainsKey(waterConsume.Any))
+                    var properties = new Dictionary<string, Action<string>>
                     {
-                        waterConsumesByYear[waterConsume.Any] = waterConsume;
+                { "Any", value => waterConsume.Any = value },
+                { "Codi_comarca", value => waterConsume.CodiComarca = value },
+                { "Comarca", value => waterConsume.Comarca = value },
+                { "Població", value => waterConsume.Poblacio = value },
+                { "Domèstic_xarxa", value => waterConsume.DomesticXarxa = value },
+                { "Activitats_econòmiques_i_fonts_pròpies", value => waterConsume.ActivitatsEconomiquesIFontsPropies = value },
+                { "Total", value => waterConsume.Total = value },
+                { "Consum_domèstic_per_càpita", value =>
+                {
+                        waterConsume.ConsumDomesticPerCapita = value;
+                        if (!comarcaByYear.ContainsKey(waterConsume.Any) || float.Parse(value) < float.Parse(comarcaByYear[waterConsume.Any].ConsumDomesticPerCapita))
+                    {
+                            comarcaByYear[waterConsume.Any] = waterConsume;
+                        }
                     }
-                    else
+                }
+            };
+
+                    while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
                     {
-                        if (waterConsume.ConsumDomesticPerCapita != null &&
-                            waterConsumesByYear[waterConsume.Any].ConsumDomesticPerCapita != null &&
-                            float.Parse(waterConsumesByYear[waterConsume.Any].ConsumDomesticPerCapita) >
-                            float.Parse(waterConsume.ConsumDomesticPerCapita))
+                        if (reader.NodeType == XmlNodeType.Element && properties.TryGetValue(reader.Name, out var action))
                         {
-                            waterConsumesByYear[waterConsume.Any] = waterConsume;
+                            action(reader.ReadElementContentAsString());
                         }
                     }
                 }
             }
-            return waterConsumesByYear;
+
+            return comarcaByYear;
         }
 
         public static List<WaterConsume> SelectByName(string name, string xmlPath)
@@ -315,45 +256,26 @@ namespace Utils
                 {
                     var waterConsume = new WaterConsume();
 
-                    while (reader.Read())
+                    var properties = new Dictionary<string, Action<string>>
                     {
-                        if (reader.NodeType == XmlNodeType.Element)
+                { "Any", value => waterConsume.Any = value },
+                { "Codi_comarca", value => waterConsume.CodiComarca = value },
+                { "Comarca", value => waterConsume.Comarca = value },
+                { "Població", value => waterConsume.Poblacio = value },
+                { "Domèstic_xarxa", value => waterConsume.DomesticXarxa = value },
+                { "Activitats_econòmiques_i_fonts_pròpies", value => waterConsume.ActivitatsEconomiquesIFontsPropies = value },
+                { "Total", value => waterConsume.Total = value },
+                { "Consum_domèstic_per_càpita", value => waterConsume.ConsumDomesticPerCapita = value }
+            };
+
+                    while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+                    {
+                        if (reader.NodeType == XmlNodeType.Element && properties.TryGetValue(reader.Name, out var action))
                         {
-                            switch (reader.Name)
-                            {
-                                case "Any":
-                                    waterConsume.Any = reader.ReadElementContentAsString();
-                                    break;
-                                case "Codi_comarca":
-                                    waterConsume.CodiComarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Comarca":
-                                    waterConsume.Comarca = reader.ReadElementContentAsString();
-                                    break;
-                                case "Població":
-                                    waterConsume.Poblacio = reader.ReadElementContentAsString();
-                                    break;
-                                case "Domèstic_xarxa":
-                                    waterConsume.DomesticXarxa = reader.ReadElementContentAsString();
-                                    break;
-                                case "Activitats_econòmiques_i_fonts_pròpies":
-                                    waterConsume.ActivitatsEconomiquesIFontsPropies = reader.ReadElementContentAsString();
-                                    break;
-                                case "Total":
-                                    waterConsume.Total = reader.ReadElementContentAsString();
-                                    break;
-                                case "Consum_domèstic_per_càpita":
-                                    waterConsume.ConsumDomesticPerCapita = reader.ReadElementContentAsString();
-                                    break;
-                            }
-                        }
-                        else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "record")
-                        {
-                            break;
+                            action(reader.ReadElementContentAsString());
                         }
                     }
-
-                    if (waterConsume.Comarca == name)
+                    if (waterConsume.Comarca != null && waterConsume.Comarca.ToUpper().Contains(name))
                     {
                         waterConsumes.Add(waterConsume);
                     }
@@ -367,62 +289,38 @@ namespace Utils
         {
             var waterConsumes = new List<WaterConsume>();
 
-            try
+            using (var reader = XmlReader.Create(xmlPath))
             {
-                using (var reader = XmlReader.Create(xmlPath))
+                while (reader.ReadToFollowing("record"))
                 {
-                    while (reader.ReadToFollowing("record"))
+                    var waterConsume = new WaterConsume();
+
+                    var properties = new Dictionary<string, Action<string>>
                     {
-                        var waterConsume = new WaterConsume();
+                { "Any", value => waterConsume.Any = value },
+                { "Codi_comarca", value => waterConsume.CodiComarca = value },
+                { "Comarca", value => waterConsume.Comarca = value },
+                { "Població", value => waterConsume.Poblacio = value },
+                { "Domèstic_xarxa", value => waterConsume.DomesticXarxa = value },
+                { "Activitats_econòmiques_i_fonts_pròpies", value => waterConsume.ActivitatsEconomiquesIFontsPropies = value },
+                { "Total", value => waterConsume.Total = value },
+                { "Consum_domèstic_per_càpita", value => waterConsume.ConsumDomesticPerCapita = value }
+            };
 
-                        while (reader.Read())
+                    while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+                    {
+                        if (reader.NodeType == XmlNodeType.Element && properties.TryGetValue(reader.Name, out var action))
                         {
-                            if (reader.NodeType == XmlNodeType.Element)
-                            {
-                                switch (reader.Name)
-                                {
-                                    case "Any":
-                                        waterConsume.Any = reader.ReadElementContentAsString();
-                                        break;
-                                    case "Codi_comarca":
-                                        waterConsume.CodiComarca = reader.ReadElementContentAsString();
-                                        break;
-                                    case "Comarca":
-                                        waterConsume.Comarca = reader.ReadElementContentAsString();
-                                        break;
-                                    case "Població":
-                                        waterConsume.Poblacio = reader.ReadElementContentAsString();
-                                        break;
-                                    case "Domèstic_xarxa":
-                                        waterConsume.DomesticXarxa = reader.ReadElementContentAsString();
-                                        break;
-                                    case "Activitats_econòmiques_i_fonts_pròpies":
-                                        waterConsume.ActivitatsEconomiquesIFontsPropies = reader.ReadElementContentAsString();
-                                        break;
-                                    case "Total":
-                                        waterConsume.Total = reader.ReadElementContentAsString();
-                                        break;
-                                    case "Consum_domèstic_per_càpita":
-                                        waterConsume.ConsumDomesticPerCapita = reader.ReadElementContentAsString();
-                                        break;
-                                }
-                            }
-                            else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "record")
-                            {
-                                break;
-                            }
-                        }
-
-                        if (waterConsume.CodiComarca == codiComarca)
-                        {
-                            waterConsumes.Add(waterConsume);
+                            action(reader.ReadElementContentAsString());
                         }
                     }
+                    if (waterConsume.CodiComarca != null && waterConsume.CodiComarca.Contains(codiComarca))
+                    {
+                        waterConsumes.Add(waterConsume);
+                    }
                 }
-            }catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
             }
+
             return waterConsumes;
         }
     }
