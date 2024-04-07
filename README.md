@@ -1,11 +1,10 @@
-https://www.csvreader.com/code/cs/csv_to_xml.php
-https://joshclose.github.io/CsvHelper/examples/
-https://learn.microsoft.com/es-es/troubleshoot/developer/visualstudio/csharp/language-compilers/read-xml-data-from-url
+# AC2 Tractament de fichers en c#
+## Páginas visitas que han sido de ayuda
+- https://www.csvreader.com/code/cs/csv_to_xml.php
+- https://joshclose.github.io/CsvHelper/examples/
+- https://learn.microsoft.com/es-es/troubleshoot/developer/visualstudio/csharp/language-compilers/read-xml-data-from-url
 
-
-
-
-
+## Usos de IA y resultados útiles
 - ChatGPT
 - - - Resultado 1
 ```
