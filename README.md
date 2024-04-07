@@ -7,7 +7,11 @@ https://learn.microsoft.com/es-es/troubleshoot/developer/visualstudio/csharp/lan
 
 
 - ChatGPT
-- - Resultado 1
+- - - Resultado 1
+```
+@"^[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}]*$"
+```
+- - Resultado 2
 ```
 var root = new XElement("data");
 
@@ -32,4 +36,37 @@ foreach (var record in records)
 var xmlDocument = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), root);
 xmlDocument.Save(xmlPath);
 Console.WriteLine(ConvertSuccess);
+```
+- - Resultado 3
+```
+if (reader.NodeType == XmlNodeType.Element)
+{
+    switch (reader.Name)
+    {
+        case "Any":
+            waterConsume.Any = reader.ReadElementContentAsString();
+            break;
+        case "Codi_comarca":
+            waterConsume.CodiComarca = reader.ReadElementContentAsString();
+            break;
+        case "Comarca":
+            waterConsume.Comarca = reader.ReadElementContentAsString();
+            break;
+        case "Població":
+            waterConsume.Poblacio = reader.ReadElementContentAsString();
+            break;
+        case "Domèstic_xarxa":
+            waterConsume.DomesticXarxa = reader.ReadElementContentAsString();
+            break;
+        case "Activitats_econòmiques_i_fonts_pròpies":
+            waterConsume.ActivitatsEconomiquesIFontsPropies = reader.ReadElementContentAsString();
+            break;
+        case "Total":
+            waterConsume.Total = reader.ReadElementContentAsString();
+            break;
+        case "Consum_domèstic_per_càpita":
+            waterConsume.ConsumDomesticPerCapita = reader.ReadElementContentAsString();
+            break;
+    }
+}
 ```
