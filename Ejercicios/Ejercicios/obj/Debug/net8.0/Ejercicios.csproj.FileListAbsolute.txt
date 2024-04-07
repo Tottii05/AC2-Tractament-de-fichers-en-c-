@@ -1,0 +1,17 @@
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\bin\Debug\net8.0\Ejercicios.exe
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\bin\Debug\net8.0\Ejercicios.deps.json
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\bin\Debug\net8.0\Ejercicios.runtimeconfig.json
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\bin\Debug\net8.0\Ejercicios.dll
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\bin\Debug\net8.0\Ejercicios.pdb
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\bin\Debug\net8.0\CsvHelper.dll
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\Ejercicios.csproj.AssemblyReference.cache
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\Ejercicios.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\Ejercicios.AssemblyInfoInputs.cache
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\Ejercicios.AssemblyInfo.cs
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\Ejercicios.csproj.CoreCompileInputs.cache
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\Ejercicios.csproj.CopyComplete
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\Ejercicios.dll
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\refint\Ejercicios.dll
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\Ejercicios.pdb
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\Ejercicios.genruntimeconfig.cache
+C:\Users\tomas\Desktop\clases\Programación\Ejercicios\Ejercicios\obj\Debug\net8.0\ref\Ejercicios.dll
