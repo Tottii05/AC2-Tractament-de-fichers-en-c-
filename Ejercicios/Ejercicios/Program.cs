@@ -11,13 +11,14 @@ namespace FileHandling
             const string xmlPath = "../../../files/Consum_d_aigua_a_Catalunya_per_comarques_20240402.xml";
             const string Spacing = "----------------------------------------";
             const string FirstMenuText = "Has convertido el Csv a Xml?\ns/n";
-            const string SecondMenuText = "Selecciona una opción:\n1. Comarcas con la población mayor a 20000";
+            const string SecondMenuText = "Que quieres hacer?\n1.Comarcas con mas de 20000 habitantes\n2.Todas las comarcas\n3.Comarca con menor consumo domestico per capita\n4.Comarca con mayor consumo domestico per capita\n5.Filtrar por nombre o codigo de comarca";
             const string AllComarcaText = "Any: {0}\nComarca: {1}\nConsum domestic per capita: {2}";
             const string SubMenuText = "Como quieres filtrar\n1.Nombre\n2.Codigo de comarca";
             const string NameFilteredText = "Introduce el nombre de la comarca";
             const string CodeFilteredText = "Introduce el código de la comarca";
             const string NoResultsText = "No se han encontrado resultados";
             const string FilteredComarcaText = "Any: {0}\nCodiComarca: {1}\nComarca: {2}\nPoblacio: {3}\nDomesticXarxa: {4}\nActivitatsEconomiquesIFontsPropies: {5}\nTotal: {6}\nConsumDomesticPerCapita: {7}";
+            const string InvalidOptionText = "Opción no válida";
 
             string firstMenuChoice, comarcaName, comarcaCode;
             int secondMenuChoice, subMenuChoice;
@@ -38,7 +39,7 @@ namespace FileHandling
                         leaveMenu = true;
                         break;
                     default:
-                        Console.WriteLine("Opción no válida");
+                        Console.WriteLine(InvalidOptionText);
                         firstMenuChoice = Console.ReadLine().ToLower();
                         break;
                 }
@@ -99,7 +100,7 @@ namespace FileHandling
                             {
                                 case 1:
                                     Console.WriteLine(NameFilteredText);
-                                    comarcaName = Console.ReadLine();
+                                    comarcaName = Console.ReadLine().ToUpper().Trim();
                                     List<WaterConsume> filteredWaterConsumeByName = Helper.SelectByName(comarcaName, xmlPath);
                                     if (filteredWaterConsumeByName.Count == 0)
                                     {
@@ -134,7 +135,7 @@ namespace FileHandling
                                     leaveSubMenu = true;
                                     break;
                                 default:
-                                    Console.WriteLine("Opción no válida");
+                                    Console.WriteLine(InvalidOptionText);
                                     break;
                             }
                         }

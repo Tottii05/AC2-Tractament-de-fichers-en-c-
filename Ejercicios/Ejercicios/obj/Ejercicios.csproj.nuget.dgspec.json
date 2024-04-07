@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tomas\\Desktop\\clases\\Programación\\Ejercicios\\Ejercicios\\Ejercicios.csproj": {}
+    "C:\\Users\\tomas\\Desktop\\clases\\Github\\AC2-Tractament-de-fichers-en-c-\\Ejercicios\\Ejercicios\\Ejercicios.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tomas\\Desktop\\clases\\Programación\\Ejercicios\\Ejercicios\\Ejercicios.csproj": {
+    "C:\\Users\\tomas\\Desktop\\clases\\Github\\AC2-Tractament-de-fichers-en-c-\\Ejercicios\\Ejercicios\\Ejercicios.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tomas\\Desktop\\clases\\Programación\\Ejercicios\\Ejercicios\\Ejercicios.csproj",
+        "projectUniqueName": "C:\\Users\\tomas\\Desktop\\clases\\Github\\AC2-Tractament-de-fichers-en-c-\\Ejercicios\\Ejercicios\\Ejercicios.csproj",
         "projectName": "Ejercicios",
-        "projectPath": "C:\\Users\\tomas\\Desktop\\clases\\Programación\\Ejercicios\\Ejercicios\\Ejercicios.csproj",
+        "projectPath": "C:\\Users\\tomas\\Desktop\\clases\\Github\\AC2-Tractament-de-fichers-en-c-\\Ejercicios\\Ejercicios\\Ejercicios.csproj",
         "packagesPath": "C:\\Users\\tomas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tomas\\Desktop\\clases\\Programación\\Ejercicios\\Ejercicios\\obj\\",
+        "outputPath": "C:\\Users\\tomas\\Desktop\\clases\\Github\\AC2-Tractament-de-fichers-en-c-\\Ejercicios\\Ejercicios\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

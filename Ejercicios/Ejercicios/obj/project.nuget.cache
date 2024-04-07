@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "n1x4gx22s84hqb8sCjk+R52VrjtgFXOCb2benr5tPbUMZF/nmAZjep54TniaD84/Camoc48VBng6THCrjUGx7g==",
+  "dgSpecHash": "XSrWMebM7L7nH1aQFIiwZYe51orAHtE9Sc+OE80fI17ktUtv28riHRAN2ES2OmemWJe5GKKvyas0gyZHPKEC5w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tomas\\Desktop\\clases\\Programación\\Ejercicios\\Ejercicios\\Ejercicios.csproj",
+  "projectFilePath": "C:\\Users\\tomas\\Desktop\\clases\\Github\\AC2-Tractament-de-fichers-en-c-\\Ejercicios\\Ejercicios\\Ejercicios.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tomas\\.nuget\\packages\\csvhelper\\31.0.3\\csvhelper.31.0.3.nupkg.sha512"
   ],
